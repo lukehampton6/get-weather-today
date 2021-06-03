@@ -80,10 +80,10 @@ var getWeatherData = function () {
       var futureWeatherEl = document.querySelector(".future-weather");
       for (i = 1; i < response.daily.length; i++) {
         var futureDay = response.daily[i];
-        futureDate = moment.unix(futureDay.dt).format("dddd, MMMM Do");
+        var futureDate = moment.unix(futureDay.dt).format("dddd, MMMM Do");
         var futureItem = document.createElement('div');
         futureItem.setAttribute('class', 'future-item');
-        futureItem.innerHTML = '<h2>'+ futureDate +'</h2>';
+        futureItem.innerHTML = '<h3>'+ futureDate +'</h3>';
         futureItem.innerHTML += '<h3><i class="fas fa-thermometer-half"></i> Temp: '+ futureDay.temp.day +'</h3>';
         futureItem.innerHTML += '<h3><i class="fas fa-wind"></i> Wind: '+ futureDay.wind_speed +'</h3>';
         futureItem.innerHTML += '<h3><i class="fas fa-tint"></i> Humidity: '+ futureDay.humidity +'</h3>';
