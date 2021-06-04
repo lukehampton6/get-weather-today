@@ -56,6 +56,22 @@ main {
     margin: 15px;
 }
 
+#recentSearches {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-item {
+ border-style: none;
+ padding: 15px;
+ width :150px;
+ margin-top: 15px;
+}
+
+.light {
+  color: azure;
+}
+
 h1 {
   margin: 20px;
   color: #333;
@@ -74,12 +90,9 @@ h3 {
 }
 
 h4 {
-  background-color: rgb(78, 117, 190);
-  color: #333;
+  color :azure ;
+  padding: 5px;
   margin: 10px;
-  margin-left: 0;
-  padding: 10px;
-  border-radius: 5px;
 }
 
 h4:hover {

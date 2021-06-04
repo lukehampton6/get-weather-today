@@ -1,9 +1,7 @@
 var recentSearches = JSON.parse(localStorage.getItem("recentSearches")) || [];
-var history = document.getElementById("recentSearches");
+var searchHistory = document.querySelector('#recentSearches');
 var input = "";
 var currentDate = moment().format("dddd, MMMM Do YYYY");
-
-displayRecentSearches();
 
 //when enter button clicked
 document.getElementById("button").addEventListener("click", function () {
@@ -12,21 +10,37 @@ document.getElementById("button").addEventListener("click", function () {
   input.trim();
   //push input to recent searches and only keep 5
   recentSearches.push(input);
-  recentSearches.splice(5);
+  recentSearches.splice(1);
   //save recent searches to local storage
-  localStorage.setItem("recentSearches", JSON.stringify(recentSearches.reverse()));
+  localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
   getWeatherData();
 });
 
 //display recent searches
-function displayRecentSearches() {
-  for (i = 0; i < recentSearches.length; i++) {
-    console.log(recentSearches[i]);
-    history.innerHTML += "<h4>" + recentSearches[i] + "</h4>";
-  }
+var displayRecentSearches = function() {
+  for(i = 0; i < recentSearches.length; i++) {
+    var searchItem = document.createElement('button')
+    searchItem.textContent = recentSearches[i]
+    searchItem.setAttribute('class', 'search-item')
+    searchHistory.appendChild(searchItem)
+  };
 };
 
+displayRecentSearches();
 
+var clickSearchItem = function() {
+  if (recentSearches == 0) {
+    return;
+  } else {
+    document.querySelector('.search-item').addEventListener('click', function() {
+      var searchItemValue = document.querySelector('.search-item').innerHTML;
+      input = searchItemValue;
+      getWeatherData();
+    });
+  };
+};
+
+clickSearchItem();
 
 //get info from weather api
 var getWeatherData = function () {
@@ -45,7 +59,7 @@ var getWeatherData = function () {
       //append weather info to html
       var displayAreaEl = document.querySelector(".display-area");
       displayAreaEl.innerHTML =
-        '<div class="main-weather"><h2>' +
+        '<div class="main-weather"><h2 class="light">' +
         response.name +
         " (" +
         currentDate +
@@ -83,10 +97,10 @@ var getWeatherData = function () {
         var futureDate = moment.unix(futureDay.dt).format("dddd, MMMM Do");
         var futureItem = document.createElement('div');
         futureItem.setAttribute('class', 'future-item');
-        futureItem.innerHTML = '<h3>'+ futureDate +'</h3>';
-        futureItem.innerHTML += '<h3><i class="fas fa-thermometer-half"></i> Temp: '+ futureDay.temp.day +'</h3>';
-        futureItem.innerHTML += '<h3><i class="fas fa-wind"></i> Wind: '+ futureDay.wind_speed +'</h3>';
-        futureItem.innerHTML += '<h3><i class="fas fa-tint"></i> Humidity: '+ futureDay.humidity +'</h3>';
+        futureItem.innerHTML = '<h4>'+ futureDate +'</h4>';
+        futureItem.innerHTML += '<h3><i class="fas fa-thermometer-half"></i> Temp: '+ futureDay.temp.day +'&deg;F</h3>';
+        futureItem.innerHTML += '<h3><i class="fas fa-wind"></i> Wind: '+ futureDay.wind_speed +' MPH</h3>';
+        futureItem.innerHTML += '<h3><i class="fas fa-tint"></i> Humidity: '+ futureDay.humidity +'%</h3>';
         futureWeatherEl.appendChild(futureItem);
       }
     });
